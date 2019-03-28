@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href /yitong/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -19,7 +19,13 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@types/bingmaps": "0.0.1",
+    "angular-openlayers-directive": "^2.1.0",
+    "axios": "^0.18.0",
     "core-js": "^2.5.4",
+    "jquery": "^3.3.1",
+    "jsts": "^2.0.3",
+    "ol": "^5.3.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
