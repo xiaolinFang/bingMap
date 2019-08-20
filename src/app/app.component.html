@@ -1,15 +1,130 @@
-
-    <div class="top">
-      <!-- <input type="number" name="" value=""> -->
-      <label class="precision">
-        <span>设置精度值为 10的</span>
-        <select name="precision">
-          <option  value="-5">-5</option>
-          <option  value="-6">-6</option>
-          <option  value="-7">-7</option>
-          <option  value="-8">-8</option>
+<!-- <div class="top">
+      <div class="select">
+        <select class="chose" name="">
+          <option value="1">平谷区-编辑（北京）</option>
         </select>
-        <span>次方</span>
-      </label>
+      </div>
+    </div> -->
+<div class="box">
+  <div class="save_redo" *ngIf="historyVersion.length">
+    <label>
+      <!-- <span>restore</span> -->
+      <!-- <img src="assets/images/save-active.png" title="save"> -->
+      <!-- <img src="assets/images/save.png" (click)="updateImage()" title="save" > -->
+      <span class="save" (click)="updateImage(true)" *ngIf="latestVersionCatchData.length" title="save"></span>
+      <span class="save-no" *ngIf="!latestVersionCatchData.length"></span>
+    </label>
+    <label>
+      <span class="undo-no" *ngIf="undoEnd" title="No more versions"></span>
+      <span class="undo" (click)="unDo()" *ngIf="!undoEnd" title="Undo"></span>
+    </label>
+    <label>
+      <span class="redo-no" *ngIf="redoEnd" title="No more versions"></span>
+      <span class="redo" (click)="reDo()" *ngIf="!redoEnd" title="Redo"></span>
+    </label>
+  </div>
+  <div class="edit">
+    <label class="breakUp">
+      <!-- <span>拆分</span> -->
+      <span class="breakupActive" (click)="unBindModel()" *ngIf="showBreakActive" alt=""></span>
+      <span class="breakup" (click)="breakUpModel()" *ngIf="!showBreakActive"></span>
+    </label>
+    <label class="fusion">
+      <!-- <span>融合</span> -->
+      <span class="fushion" (click)="fusion()" *ngIf="!showFusionActive"></span>
+      <span class="fushionActive" (click)="unBindModel()" *ngIf="showFusionActive"></span>
+    </label>
+
+  </div>
+  <div class="tips" *ngIf="showFusionActive || showBreakActive">
+    <img src="assets/images/help.png" alt="">
+    <label *ngIf="showFusionActive">单击鼠标选中地块，继续单击选中相邻地块将自动进行融合</label>
+    <label *ngIf="showBreakActive">单击鼠标选中地块，在当前地块绘制多点连线，双击鼠标结束绘制</label>
+  </div>
+  <!-- 恢复版本确认框 -->
+  <!-- <div class="alertMsg" *ngIf="restoreConfirm" >
+        <div class="header">
+          <span>Version recovery confirmation</span>
+          <span class="close" (click) ="restoreCancle()"><img src="assets/images/close-w.png" alt=""></span>
+        </div>
+        <div class="content">{{tipMsg}}</div>
+        <div class="btns">
+          <label class="sure" (click)=" restoreData()">
+            <img src="assets/images/sure.png" alt="">
+            <span>Restore</span>
+          </label>
+          <label class="cancle" (click) ="restoreCancle()" >
+            <img src="assets/images/cancle.png" alt="">
+            <span>Cancle</span>
+          </label>
+        </div>
+        <div class="bg"></div>
+      </div> -->
+  <div id="map" class="map">
+    <!-- <div class="btns" *ngIf="showBtns" [ngStyle]="btnStyle" >
+           <label class="sure" *ngIf="showSure" (click)="sureDone()">
+             <img src="assets/images/sure.png" alt="">
+             <span>拆分</span>
+           </label>
+           <label class="cancle" (click)="cancle()">
+             <img src="assets/images/cancle.png" alt="">
+             <span>取消</span>
+           </label>
+           <div class="bg"></div>
+         </div> -->
+
+    <div class="historyVersion" *ngIf="showRestoreActive && historyVersion.length">
+      <div class="content">
+        <div class="header">
+          <label>History</label>
+          <i class="close" (click)="closeHistory()"><img src="assets/images/close-w.png" alt=""></i>
+        </div>
+        <ul class="list">
+          <li>
+            <span class="version">Version</span>
+            <span class="time">Create Time</span>
+            <span class="currentPrefix">CurrentPrefix</span>
+            <span class="pointer">Row & Col</span>
+            <span class="feature">Features</span>
+            <span class="module">Module</span>
+            <span class="restore">Operation</span>
+          </li>
+          <li class="item" *ngFor="let item of historyVersion">
+            <span class="version">{{item.key}}</span>
+            <span class="time">{{item.editTime}}</span>
+            <span class="currentPrefix">{{item.currentPrefix}}</span>
+            <span class="pointer">{{item.row}} - {{item.col}}</span>
+            <span class="feature">{{item.featureIndex}}</span>
+            <span class="module"> {{item.module}}</span>
+            <span class="restore" (click)="showRestoreComfrim(item, $event)"> <img src="assets/images/restore-left.png"
+                alt=""> restore</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg">
+
+      </div>
     </div>
-    <div id="map" class="map"></div>
+    <div class="noHistory historyVersion" *ngIf="showRestoreActive && !historyVersion.length">
+      <div class="header">
+        <label>History</label>
+        <i class="close" (click)="closeHistory()"><img src="assets/images/close-w.png" alt=""></i>
+      </div>
+      <div class="txt">
+        No history version yet
+      </div>
+    </div>
+    <!-- <div class="btns" *ngIf="showBtnsFuionsh" [ngStyle]="btnStyle" >
+           <label class="sure" *ngIf="showSure" (click)="sureDone()">
+             <img src="assets/images/sure.png" alt="">
+             <span>融合</span>
+           </label>
+           <label class="cancle" (click)="cancle()">
+             <img src="assets/images/cancle.png" alt="">
+             <span>取消</span>
+           </label>
+           <div class="bg"></div>
+         </div> -->
+  </div>
+</div>

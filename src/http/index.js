@@ -10,8 +10,27 @@ const http = {
         reject(result)
       }
     })
+  },
+  post(url, data){
+    return new Promise((resolve, reject)=>{
+      let result = axios.post(url, data).then((res)=>{
+        console.log(res, 'res');
+        resolve(result.data)
+      }).catch((error) => {
+      console.log(error, 'error');
+      reject(result)
+    });
+    })
   }
 }
+const urlConfig = {
+  production:false,
+  saveJsonUrl: '/proxy/api/image/UploadJson'
+}
+const urlConfig = {
+  production: true,
+  saveJsonUrl: 'https://apulis-china-infra01.apulis.com/api/image/UploadJson'
+}
 export{
-  http as default
+  http as default, urlConfig
 }

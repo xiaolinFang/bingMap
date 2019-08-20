@@ -1,0 +1,8 @@
+{
+  "/proxy/*": {
+  "target": "https://apulis-china-infra01.apulis.com",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": {"^/proxy" : ""}
+  }
+}
