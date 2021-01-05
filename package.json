@@ -22,7 +22,7 @@
     "@types/bingmaps": "0.0.1",
     "Base64": "^1.0.2",
     "angular-openlayers-directive": "^2.1.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "base64-js": "^1.3.0",
     "buffer": "^5.2.1",
     "core-js": "^2.5.4",
